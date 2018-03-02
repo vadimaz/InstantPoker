@@ -1,6 +1,10 @@
 package com.blogspot.vadimaz.instantpoker.game;
 
 import android.support.annotation.NonNull;
+import com.blogspot.vadimaz.instantpoker.FragmentCardBack;
+import com.blogspot.vadimaz.instantpoker.FragmentCardFront;
+import com.blogspot.vadimaz.instantpoker.MainActivity;
+import com.blogspot.vadimaz.instantpoker.R;
 
 import java.io.Serializable;
 
@@ -8,9 +12,32 @@ import java.io.Serializable;
  * Created by Vadim on 02.02.2018.
  */
 
-public class Card implements Comparable<Card>, Serializable {
+public class Card implements  Comparable<Card>, Serializable {
     private final Rank rank;
     private final Suit suit;
+    private int container;
+
+    public void show(int container){
+        this.container = container;
+        MainActivity.fragmentManager
+        .beginTransaction()
+                .add(container, new FragmentCardBack())
+                .commit();
+    }
+
+    public void flip(){
+        FragmentCardFront front = new FragmentCardFront();
+        MainActivity.fragmentManager
+        .beginTransaction()
+                .setCustomAnimations(
+                        R.animator.card_flip_right_enter,
+                        R.animator.card_flip_right_exit,
+                        R.animator.card_flip_left_enter,
+                        R.animator.card_flip_left_exit)
+                .replace(container, front)
+                .commit();
+        front.setCard(this);
+    }
 
     @Override
     public boolean equals(Object obj) {

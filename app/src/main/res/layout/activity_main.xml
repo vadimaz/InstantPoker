@@ -7,19 +7,32 @@
     android:background="@drawable/gradient"
     tools:context="com.blogspot.vadimaz.instantpoker.MainActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="InstantPoker"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/btnPlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
 
         <LinearLayout
@@ -29,31 +42,6 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/llMainCard1"
-                android:layout_width="90dp"
-                android:layout_height="130dp"
-                android:background="@drawable/card_border"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMainCard1_1"
-                    style="@style/bigCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TV" />
-
-                <TextView
-                    android:id="@+id/tvMainCard1_2"
-                    style="@style/bigCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:rotation="180"
-                    android:text="TV" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,44 +52,66 @@
             android:orientation="horizontal"
             tools:layout_editor_absoluteY="31dp">
 
-            <LinearLayout
-                android:id="@+id/llMainCard2"
-                android:layout_width="90dp"
-                android:layout_height="130dp"
-                android:background="@drawable/card_border"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMainCard2_1"
-                    style="@style/bigCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TV" />
-
-                <TextView
-                    android:id="@+id/tvMainCard2_2"
-                    style="@style/bigCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:rotation="180"
-                    android:text="TV" />
-            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btnPlay"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="PLAY"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Bet: $0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/llBetButtons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/btnBet1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$1" />
+
+        <Button
+            android:id="@+id/btnBet5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$5" />
+
+        <Button
+            android:id="@+id/btnBet10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="$10" />
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBetBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:max="100"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llBetButtons" />
 
 </android.support.constraint.ConstraintLayout>
