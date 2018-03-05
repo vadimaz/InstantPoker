@@ -1,41 +1,45 @@
 package com.blogspot.vadimaz.instantpoker.game;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+
 import com.blogspot.vadimaz.instantpoker.FragmentCardBack;
 import com.blogspot.vadimaz.instantpoker.FragmentCardFront;
-import com.blogspot.vadimaz.instantpoker.MainActivity;
 import com.blogspot.vadimaz.instantpoker.R;
 
 import java.io.Serializable;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Vadim on 02.02.2018.
  */
 
-public class Card implements  Comparable<Card>, Serializable {
+public class Card implements  Comparable<Card>, Serializable, Observer {
     private final Rank rank;
     private final Suit suit;
     private int container;
+    private transient FragmentActivity activity;
 
     public void show(int container){
         this.container = container;
-        MainActivity.fragmentManager
-        .beginTransaction()
-                .add(container, new FragmentCardBack())
-                .commit();
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(container, new FragmentCardBack())
+                .commitAllowingStateLoss();
     }
 
     public void flip(){
         FragmentCardFront front = new FragmentCardFront();
-        MainActivity.fragmentManager
-        .beginTransaction()
+        activity.getSupportFragmentManager()
+                .beginTransaction()
                 .setCustomAnimations(
                         R.animator.card_flip_right_enter,
                         R.animator.card_flip_right_exit,
                         R.animator.card_flip_left_enter,
                         R.animator.card_flip_left_exit)
                 .replace(container, front)
-                .commit();
+                .commitAllowingStateLoss();
         front.setCard(this);
     }
 
@@ -74,72 +78,9 @@ public class Card implements  Comparable<Card>, Serializable {
         return o.getWeight() - this.getWeight();
     }
 
-    /*
-    public static Card createCardByName(String rankName, String suitName) {
-        Rank r = null;
-        Suit s = null;
-        switch (rankName.toLowerCase()) {
-            case "two":
-                r = Rank.TWO;
-                break;
-            case "three":
-                r = Rank.THREE;
-                break;
-            case "four":
-                r = Rank.FOUR;
-                break;
-            case "five":
-                r = Rank.FIVE;
-                break;
-            case "six":
-                r = Rank.SIX;
-                break;
-            case "seven":
-                r = Rank.SEVEN;
-                break;
-            case "eight":
-                r = Rank.EIGHT;
-                break;
-            case "nine":
-                r = Rank.NINE;
-                break;
-            case "ten":
-                r = Rank.TEN;
-                break;
-            case "jack":
-                r = Rank.JACK;
-                break;
-            case "queen":
-                r = Rank.QUEEN;
-                break;
-            case "king":
-                r = Rank.KING;
-                break;
-            case "ace":
-                r = Rank.ACE;
-                break;
-
-        }
-
-        switch (suitName.toLowerCase()){
-            case "diamonds":
-                s = Suit.DIAMONDS;
-                break;
-            case "clubs":
-                s = Suit.CLUBS;
-                break;
-            case "hearts":
-                s = Suit.HEARTS;
-                break;
-            case "spades":
-                s = Suit.SPADES;
-                break;
-        }
-        if (r != null && s != null) {
-            return new Card(r,s);
-        } else {
-            return null;
-        }
+    @Override
+    public void update(Observable o, Object arg) {
+        this.activity = (FragmentActivity) arg;
     }
-    */
+
 }

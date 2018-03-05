@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.blogspot.vadimaz.instantpoker.game.Card;
 import com.blogspot.vadimaz.instantpoker.game.Game;
@@ -18,10 +19,9 @@ import com.blogspot.vadimaz.instantpoker.game.Player;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     final static String TAG = "cards";
-    public static FragmentManager fragmentManager;
     Game game;
     LinearLayout frMainCard1, frMainCard2;
-    FragmentCardFront cardFront1, cardFront2;
+    TextView tvBank;
     Button btnPlay, btnBet1, btnBet5, btnBet10;
     SeekBar seekBetBar;
 
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentManager = getSupportFragmentManager();
 
         frMainCard1 = findViewById(R.id.frMainCard1);
         frMainCard2 = findViewById(R.id.frMainCard2);
@@ -38,13 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBet5 = findViewById(R.id.btnBet5);
         btnBet10 = findViewById(R.id.btnBet10);
         seekBetBar = findViewById(R.id.seekBetBar);
-
-        startGame();
-        final Card playerCard1 = game.getPlayers().get(0).getHand().get(0);
-        final Card playerCard2 = game.getPlayers().get(0).getHand().get(1);
-        playerCard1.show(frMainCard1.getId());
-        playerCard2.show(frMainCard2.getId());
-
+        tvBank = findViewById(R.id.tvBank);
         btnPlay.setOnClickListener(this);
         btnBet1.setOnClickListener(this);
         btnBet5.setOnClickListener(this);
@@ -66,15 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                playerCard1.flip();
-                playerCard2.flip();
-            }
-        }, 1000);
 
+        startGame();
 
     }
 
@@ -85,11 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.btnPlay:
-                /*
+
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("game", game);
+                intent.putExtra("bet", 100);
                 startActivityForResult(intent, 1);
-                */
+
                 break;
             case R.id.btnBet1:
                 btnPlay.setText("Bet: $1");
@@ -109,20 +96,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //startGame();
+        startGame();
 
     }
 
     public void startGame(){
         game = new Game();
         Player player = new Player("Vadim");
+        game.addObserver(player);
         game.getPlayers().add(player);
         game.getDealer().dealCardsToPlayer(player);
+        game.addObserver(player.getHand().get(0));
+        game.addObserver(player.getHand().get(1));
+        game.setActivity(this);
+        tvBank.setText("Bank: $" + player.getBank());
 
-        Card mainCard1 = player.getHand().get(0);
-        Card mainCard2 = player.getHand().get(1);
+        final Card playerCard1 = game.getPlayers().get(0).getHand().get(0);
+        final Card playerCard2 = game.getPlayers().get(0).getHand().get(1);
+        playerCard1.show(frMainCard1.getId());
+        playerCard2.show(frMainCard2.getId());
 
-
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerCard1.flip();
+                playerCard2.flip();
+            }
+        }, 1000);
     }
 
 }
