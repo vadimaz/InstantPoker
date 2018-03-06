@@ -12,7 +12,7 @@
         android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,47 +24,16 @@
             android:id="@+id/llOpponentCard1"
             android:layout_width="90dp"
             android:layout_height="130dp"
-            android:background="@drawable/card_border"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvOpponentCard1_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/bigCard" />
-            <TextView
-                android:id="@+id/tvOpponentCard1_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/bigCard"  />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/llOpponentCard2"
             android:layout_width="90dp"
             android:layout_height="130dp"
-            android:background="@drawable/card_border"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvOpponentCard2_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/bigCard" />
-            <TextView
-                android:id="@+id/tvOpponentCard2_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/bigCard"  />
         </LinearLayout>
     </LinearLayout>
 
@@ -72,7 +41,7 @@
         android:id="@+id/llBottom"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
@@ -85,48 +54,16 @@
             android:id="@+id/llPlayerCard1"
             android:layout_width="90dp"
             android:layout_height="130dp"
-            android:background="@drawable/card_border"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvPlayerCard1_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/bigCard" />
-            <TextView
-                android:id="@+id/tvPlayerCard1_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/bigCard"  />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llPlayerCard2"
             android:layout_width="90dp"
             android:layout_height="130dp"
-            android:background="@drawable/card_border"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvPlayerCard2_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/bigCard" />
-            <TextView
-                android:id="@+id/tvPlayerCard2_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/bigCard"  />
         </LinearLayout>
 
     </LinearLayout>
@@ -150,113 +87,31 @@
             android:id="@+id/llCard1"
             android:layout_width="55dp"
             android:layout_height="80dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvCard1_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/smallCard" />
-            <TextView
-                android:id="@+id/tvCard1_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/smallCard"  />
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
 
         <LinearLayout
             android:id="@+id/llCard2"
             android:layout_width="55dp"
             android:layout_height="80dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvCard2_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/smallCard" />
-            <TextView
-                android:id="@+id/tvCard2_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/smallCard"  />
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
+
         <LinearLayout
             android:id="@+id/llCard3"
             android:layout_width="55dp"
             android:layout_height="80dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvCard3_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/smallCard" />
-            <TextView
-                android:id="@+id/tvCard3_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/smallCard"  />
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
+
         <LinearLayout
             android:id="@+id/llCard4"
             android:layout_width="55dp"
             android:layout_height="80dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvCard4_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/smallCard" />
-            <TextView
-                android:id="@+id/tvCard4_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/smallCard"  />
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
+
         <LinearLayout
             android:id="@+id/llCard5"
             android:layout_width="55dp"
             android:layout_height="80dp"
-            android:background="@drawable/card_border"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvCard5_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                style="@style/smallCard" />
-            <TextView
-                android:id="@+id/tvCard5_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TV"
-                android:rotation="180"
-                style="@style/smallCard"  />
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

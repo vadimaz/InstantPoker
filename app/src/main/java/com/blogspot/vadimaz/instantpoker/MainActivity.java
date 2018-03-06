@@ -3,7 +3,6 @@ package com.blogspot.vadimaz.instantpoker;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Game game;
     LinearLayout frMainCard1, frMainCard2;
     TextView tvBank;
-    Button btnPlay, btnBet1, btnBet5, btnBet10;
+    Button btnPlay, btnBet1, btnBet5, btnBet10, btnBetMinus, btnBetPlus;
     SeekBar seekBetBar;
 
     @Override
@@ -36,12 +35,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBet1 = findViewById(R.id.btnBet1);
         btnBet5 = findViewById(R.id.btnBet5);
         btnBet10 = findViewById(R.id.btnBet10);
+        btnBetMinus = findViewById(R.id.btnBetMinus);
+        btnBetPlus = findViewById(R.id.btnBetPlus);
         seekBetBar = findViewById(R.id.seekBetBar);
         tvBank = findViewById(R.id.tvBank);
         btnPlay.setOnClickListener(this);
         btnBet1.setOnClickListener(this);
         btnBet5.setOnClickListener(this);
         btnBet10.setOnClickListener(this);
+        btnBetPlus.setOnClickListener(this);
+        btnBetMinus.setOnClickListener(this);
 
         seekBetBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -79,16 +82,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.btnBet1:
-                btnPlay.setText("Bet: $1");
-                seekBetBar.setProgress(1);
-                break;
-            case R.id.btnBet5:
                 btnPlay.setText("Bet: $5");
                 seekBetBar.setProgress(5);
                 break;
-            case R.id.btnBet10:
+            case R.id.btnBet5:
                 btnPlay.setText("Bet: $10");
                 seekBetBar.setProgress(10);
+                break;
+            case R.id.btnBet10:
+                btnPlay.setText("Bet: $50");
+                seekBetBar.setProgress(50);
+                break;
+            case R.id.btnBetMinus:
+                seekBetBar.setProgress(seekBetBar.getProgress() - 1);
+                btnPlay.setText("Bet: $"+ seekBetBar.getProgress());
+                break;
+            case R.id.btnBetPlus:
+                seekBetBar.setProgress(seekBetBar.getProgress() + 1);
+                btnPlay.setText("Bet: $"+ seekBetBar.getProgress());
                 break;
         }
 
@@ -102,17 +113,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void startGame(){
         game = new Game();
+
         Player player = new Player("Vadim");
         game.addObserver(player);
         game.getPlayers().add(player);
         game.getDealer().dealCardsToPlayer(player);
-        game.addObserver(player.getHand().get(0));
-        game.addObserver(player.getHand().get(1));
+        final Card playerCard1 = player.getHand().get(0);
+        final Card playerCard2 = player.getHand().get(1);
+        game.addObserver(playerCard1);
+        game.addObserver(playerCard2);
+
         game.setActivity(this);
         tvBank.setText("Bank: $" + player.getBank());
 
-        final Card playerCard1 = game.getPlayers().get(0).getHand().get(0);
-        final Card playerCard2 = game.getPlayers().get(0).getHand().get(1);
         playerCard1.show(frMainCard1.getId());
         playerCard2.show(frMainCard2.getId());
 
@@ -123,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 playerCard1.flip();
                 playerCard2.flip();
             }
-        }, 1000);
+        }, 500);
     }
 
 }

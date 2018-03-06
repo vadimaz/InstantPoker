@@ -19,8 +19,7 @@ public class FragmentCardFront extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.card_front_layout, container, false);
-        LinearLayout ll = (LinearLayout) view;
-        CardUtils.setCardTextAndColor(ll, card);
+        CardUtils.setCardTextAndColor((LinearLayout) view, card, container.getLayoutParams().height/5.5);
         return view;
     }
 

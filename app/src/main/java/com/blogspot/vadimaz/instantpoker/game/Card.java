@@ -1,5 +1,6 @@
 package com.blogspot.vadimaz.instantpoker.game;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
@@ -38,6 +39,26 @@ public class Card implements  Comparable<Card>, Serializable, Observer {
                         R.animator.card_flip_right_exit,
                         R.animator.card_flip_left_enter,
                         R.animator.card_flip_left_exit)
+                .replace(container, front)
+                .commitAllowingStateLoss();
+        front.setCard(this);
+    }
+
+    public void flip(int delay) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flip();
+            }
+        }, delay);
+    }
+
+    public void showFront(int container){
+        this.container = container;
+        FragmentCardFront front = new FragmentCardFront();
+        activity.getSupportFragmentManager()
+                .beginTransaction()
                 .replace(container, front)
                 .commitAllowingStateLoss();
         front.setCard(this);
