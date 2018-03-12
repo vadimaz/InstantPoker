@@ -23,6 +23,10 @@ public class Game extends Observable implements Serializable {
         notifyObservers(activity);
     }
 
+    public Activity getActivity() {
+        return activity;
+    }
+
     public Game() {
         this.players = new LinkedList<>();
         this.dealer = new Dealer(players);

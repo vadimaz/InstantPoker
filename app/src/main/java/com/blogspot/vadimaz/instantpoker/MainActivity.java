@@ -1,11 +1,15 @@
 
 package com.blogspot.vadimaz.instantpoker;
 
+import android.animation.LayoutTransition;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -17,20 +21,20 @@ import com.blogspot.vadimaz.instantpoker.game.Player;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    final static String TAG = "cards";
+    public final static String TAG = "cards";
     Game game;
-    LinearLayout frMainCard1, frMainCard2;
+    LinearLayout linearLayout;
     TextView tvBank;
     Button btnPlay, btnBet1, btnBet5, btnBet10, btnBetMinus, btnBetPlus;
     SeekBar seekBetBar;
+    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        frMainCard1 = findViewById(R.id.frMainCard1);
-        frMainCard2 = findViewById(R.id.frMainCard2);
+        linearLayout = findViewById(R.id.linearLayout);
         btnPlay = findViewById(R.id.btnPlay);
         btnBet1 = findViewById(R.id.btnBet1);
         btnBet5 = findViewById(R.id.btnBet5);
@@ -126,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         game.setActivity(this);
         tvBank.setText("Bank: $" + player.getBank());
 
-        playerCard1.show(frMainCard1.getId());
-        playerCard2.show(frMainCard2.getId());
+        playerCard1.show(linearLayout.getChildAt(0));
+        playerCard2.show(linearLayout.getChildAt(1));
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -137,6 +141,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 playerCard2.flip();
             }
         }, 500);
+
+        /*handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(context, R.anim.highlite_card);
+                linearLayout.getChildAt(0).startAnimation(animation);
+                linearLayout.getChildAt(1).startAnimation(animation);
+            }
+        }, 2500);*/
     }
 
 }

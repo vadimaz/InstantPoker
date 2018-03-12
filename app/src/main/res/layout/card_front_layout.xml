@@ -8,17 +8,21 @@
 
     <TextView
         android:id="@+id/tvTop"
-        style="@style/bigCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
         android:layout_weight="1"
         android:text="TV" />
 
     <TextView
         android:id="@+id/tvBottom"
-        style="@style/bigCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
         android:layout_weight="1"
         android:rotation="180"
         android:text="TV" />

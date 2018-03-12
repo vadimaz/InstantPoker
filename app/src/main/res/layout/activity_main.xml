@@ -62,8 +62,7 @@
 
         <LinearLayout
             android:id="@+id/frMainCard1"
-            android:layout_width="115dp"
-            android:layout_height="160dp"
+            style="@style/bigCard"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -71,8 +70,7 @@
 
         <LinearLayout
             android:id="@+id/frMainCard2"
-            android:layout_width="115dp"
-            android:layout_height="160dp"
+            style="@style/bigCard"
             android:gravity="center"
             android:orientation="horizontal"
             tools:layout_editor_absoluteY="31dp">

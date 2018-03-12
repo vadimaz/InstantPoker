@@ -4,25 +4,23 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.vadimaz.instantpoker.game.Card;
 import com.blogspot.vadimaz.instantpoker.game.Combination;
 import com.blogspot.vadimaz.instantpoker.game.Combinations;
 import com.blogspot.vadimaz.instantpoker.game.Game;
 import com.blogspot.vadimaz.instantpoker.game.Player;
-import com.blogspot.vadimaz.instantpoker.utils.CardUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
     private final static String TAG = "cards";
     LinearLayout llTop, llCenter, llBottom;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
         llCenter =  findViewById(R.id.llCenter);
         llBottom = findViewById(R.id.llBottom);
 
-        Game game = (Game) getIntent().getSerializableExtra("game");
+        final Game game = (Game) getIntent().getSerializableExtra("game");
 
         Player player = game.getPlayers().get(0);
         game.addObserver(player);
@@ -57,38 +55,26 @@ public class GameActivity extends AppCompatActivity {
         }
         game.setActivity(this);
 
-        playerCard1.showFront(llBottom.getChildAt(0).getId());
-        playerCard2.showFront(llBottom.getChildAt(1).getId());
+        playerCard1.showFront(llBottom.getChildAt(0));
+        playerCard2.showFront(llBottom.getChildAt(1));
 
-        opponentCard1.show(llTop.getChildAt(0).getId());
-        opponentCard2.show(llTop.getChildAt(1).getId());
+        opponentCard1.show(llTop.getChildAt(0));
+        opponentCard2.show(llTop.getChildAt(1));
 
         for (int i = 0; i < showDown.size(); i++) {
             Card card = showDown.get(i);
-            card.show(llCenter.getChildAt(i).getId());
+            card.show(llCenter.getChildAt(i));
         }
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showDown.get(0).flip();
-                showDown.get(1).flip();
-                showDown.get(2).flip();
-            }
-        }, 1000);
+        showDown.get(0).flip(1000);
+        showDown.get(1).flip(1250);
+        showDown.get(2).flip(1500);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showDown.get(3).flip();
-
-            }
-        }, 2500);
+        showDown.get(3).flip(2500);
 
         showDown.get(4).flip(4000);
 
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 opponentCard1.flip();
@@ -96,17 +82,6 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }, 5500);
-
-/*
-        CardUtils.setCardTextAndColor((ViewGroup) llTop.getChildAt(0), opponent.getHand().get(0));
-        CardUtils.setCardTextAndColor((ViewGroup) llTop.getChildAt(1), opponent.getHand().get(1));
-        CardUtils.setCardTextAndColor((ViewGroup) llBottom.getChildAt(0), player.getHand().get(0));
-        CardUtils.setCardTextAndColor((ViewGroup) llBottom.getChildAt(1), player.getHand().get(1));
-
-        for (int i = 0; i < llCenter.getChildCount(); i++) {
-            CardUtils.setCardTextAndColor((ViewGroup) llCenter.getChildAt(i), showDown.get(i));
-        }
-*/
 
 
 
@@ -118,6 +93,24 @@ public class GameActivity extends AppCompatActivity {
         for (Combination c: combinations) {
             Log.d(TAG, c.toString());
         }
-        Combinations.getWinner(combinations);
+        final ArrayList<Combination> winners = Combinations.getWinner(combinations);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                List<Card> winHand = winners.get(0).getHand();
+                Player winner = winners.get(0).getPlayer();
+                for (int i = 0; i < winHand.size(); i++) {
+                    winHand.get(i).highlight();
+                }
+                if (winners.size() != 1) {
+                    Toast.makeText(game.getActivity(),"Both players win with "+ winners.get(0).getRank(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(game.getActivity(),winner.getName() + " wins with "+ winners.get(0).getRank(), Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, 6500);
+
     }
 }

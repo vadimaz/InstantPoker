@@ -63,7 +63,7 @@ public enum Combinations {
                 }
             }
             if (result.size() == 5) {
-                Log.d(TAG, "checkFlush: " + result);
+                //Log.d(TAG, "checkFlush: " + result);
                 return result;
             }
         }
@@ -84,7 +84,7 @@ public enum Combinations {
                     result.addAll(three);
                     result.add(fourth);
                     result.add(handCopy.get(0));
-                    Log.d(TAG, "checkFourOfKind: " + result);
+                    //Log.d(TAG, "checkFourOfKind: " + result);
                     return result;
                 }
             }
@@ -110,7 +110,7 @@ public enum Combinations {
         ArrayList<Card> result = new ArrayList<>(5);
         result.addAll(three);
         result.addAll(pair);
-        Log.d(TAG, "checkFullHouse: " + result);
+        //Log.d(TAG, "checkFullHouse: " + result);
         return result;
     }
 
@@ -140,7 +140,7 @@ public enum Combinations {
                         }
                     }
                     if (count == 5) {
-                        Log.d(TAG, "checkStraight: " + result);
+                        //Log.d(TAG, "checkStraight: " + result);
                         return result;
                     }
                 }
@@ -184,7 +184,7 @@ public enum Combinations {
                             //Log.d(TAG, "checkRoyalFlush: null");
                             return null;
                         }
-                        Log.d(TAG, "checkStraightFlushOrRoyal: " + result);
+                        //Log.d(TAG, "checkStraightFlushOrRoyal: " + result);
                         return result;
                     }
                 }
@@ -211,7 +211,7 @@ public enum Combinations {
         for (int i = 0; i < 2; i++) {
             result.add(handCopy.get(i));
         }
-        Log.d(TAG, "checkThreeOfKind: "+ result);
+        //Log.d(TAG, "checkThreeOfKind: "+ result);
         return result;
 
     }
@@ -262,7 +262,7 @@ public enum Combinations {
         result.addAll(pairTwo);
         result.add(handCopy.get(0));
 
-        Log.d(TAG, "checkTwoPairs: " + result);
+        //Log.d(TAG, "checkTwoPairs: " + result);
         return result;
 
 
@@ -281,7 +281,7 @@ public enum Combinations {
         for (int i = 0; i < 3; i++) {
             result.add(handCopy.get(i));
         }
-        Log.d(TAG, "checkOnePair: " + result);
+        //Log.d(TAG, "checkOnePair: " + result);
         return result;
 
     }
@@ -306,7 +306,7 @@ public enum Combinations {
         for (int i = 0; i < 5; i++) {
             result.add(hand.get(i));
         }
-        Log.d(TAG, "checkHighHand: "+ result);
+        //Log.d(TAG, "checkHighHand: "+ result);
         return result;
     }
 
@@ -329,7 +329,9 @@ public enum Combinations {
         return null;
     }
 
-    public static void getWinner(ArrayList<Combination> combinations){
+    public static ArrayList<Combination>
+
+    getWinner(ArrayList<Combination> combinations){
         ArrayList<Combination> winnerCombinations = new ArrayList<>(combinations.size());
         Combination winner = Collections.max(combinations);
         winnerCombinations.add(winner);
@@ -338,13 +340,17 @@ public enum Combinations {
         }
         if (winnerCombinations.size() == 1) {
             Log.d(TAG, "winner: " + winnerCombinations.get(0).getPlayer().getName());
-        } else {
+        } else Log.d(TAG, "winner: none");
+            /*
+            {
             StringBuilder sb = new StringBuilder();
             for (Combination c : winnerCombinations){
                 sb.append(c.getPlayer().getName()).append(" ");
             }
             Log.d(TAG, "winners: "+ sb.toString());
         }
+        */
+        return winnerCombinations;
     }
 
 }
