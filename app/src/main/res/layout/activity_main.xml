@@ -10,11 +10,10 @@
     <LinearLayout
         android:id="@+id/llTopBar"
         android:layout_width="0dp"
-        android:layout_height="17dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,7 +22,6 @@
             android:id="@+id/tvGameTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:gravity="start"
             android:text="InstantPoker"
@@ -36,7 +34,6 @@
             android:id="@+id/tvBank"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:gravity="end"
             android:text="Bank: $0"
@@ -54,7 +51,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/llBetButtons"
+        app:layout_constraintBottom_toTopOf="@+id/tvBet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTopBar">
@@ -79,15 +76,17 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/tvBet"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Bet: $0"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="BET: $0"
+        android:textColor="#FFDD00"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/llBetButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -96,8 +95,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/llBetSeekBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,21 +105,21 @@
         <Button
             android:id="@+id/btnBet1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:text="$5" />
 
         <Button
             android:id="@+id/btnBet5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:text="$10" />
 
         <Button
             android:id="@+id/btnBet10"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:text="$50" />
     </LinearLayout>
@@ -129,9 +128,9 @@
         android:id="@+id/llBetSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btnPlay"
@@ -140,8 +139,8 @@
 
         <Button
             android:id="@+id/btnBetMinus"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:text="-" />
 
         <SeekBar
@@ -155,9 +154,21 @@
 
         <Button
             android:id="@+id/btnBetPlus"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:text="+" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnPlay"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="play"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

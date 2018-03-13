@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blogspot.vadimaz.instantpoker.game.Card;
 import com.blogspot.vadimaz.instantpoker.game.Game;
@@ -23,11 +24,12 @@ import com.blogspot.vadimaz.instantpoker.game.Player;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public final static String TAG = "cards";
     Game game;
+    int bet;
+    Player player;
     LinearLayout linearLayout;
-    TextView tvBank;
+    TextView tvBank, tvBet;
     Button btnPlay, btnBet1, btnBet5, btnBet10, btnBetMinus, btnBetPlus;
     SeekBar seekBetBar;
-    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBetPlus = findViewById(R.id.btnBetPlus);
         seekBetBar = findViewById(R.id.seekBetBar);
         tvBank = findViewById(R.id.tvBank);
+        tvBet = findViewById(R.id.tvBet);
+
         btnPlay.setOnClickListener(this);
         btnBet1.setOnClickListener(this);
         btnBet5.setOnClickListener(this);
@@ -53,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         seekBetBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                btnPlay.setText("Bet: $"+progress);
+                tvBet.setText("Bet: $"+progress);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                btnPlay.setText("Bet: $"+ seekBar.getProgress());
+                tvBet.setText("Bet: $"+ seekBar.getProgress());
             }
 
             @Override
@@ -78,39 +82,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.btnPlay:
-
+                if (bet > player.getBank()) {
+                    Toast.makeText(this, "Not enough money!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (bet == 0) {
+                    Toast.makeText(this, "Choose your bet!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                player.setBank(player.getBank() - bet);
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("game", game);
-                intent.putExtra("bet", 100);
+                intent.putExtra("bet", bet);
+                intent.putExtra("bank", player.getBank());
                 startActivityForResult(intent, 1);
 
                 break;
             case R.id.btnBet1:
-                btnPlay.setText("Bet: $5");
-                seekBetBar.setProgress(5);
+                bet = 5;
                 break;
             case R.id.btnBet5:
-                btnPlay.setText("Bet: $10");
-                seekBetBar.setProgress(10);
+                bet = 10;
                 break;
             case R.id.btnBet10:
-                btnPlay.setText("Bet: $50");
-                seekBetBar.setProgress(50);
+                bet = 50;
                 break;
             case R.id.btnBetMinus:
-                seekBetBar.setProgress(seekBetBar.getProgress() - 1);
-                btnPlay.setText("Bet: $"+ seekBetBar.getProgress());
+                //seekBetBar.setProgress(seekBetBar.getProgress() - 1);
+                bet = seekBetBar.getProgress()-1;
                 break;
             case R.id.btnBetPlus:
-                seekBetBar.setProgress(seekBetBar.getProgress() + 1);
-                btnPlay.setText("Bet: $"+ seekBetBar.getProgress());
+                //seekBetBar.setProgress(seekBetBar.getProgress() + 1);
+                bet = seekBetBar.getProgress()+1;
                 break;
         }
+        tvBet.setText("Bet: $"+bet);
+        seekBetBar.setProgress(bet);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        player.setBank(data.getIntExtra("bank", 0));
         startGame();
 
     }
@@ -118,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void startGame(){
         game = new Game();
 
-        Player player = new Player("Vadim");
+        player = new Player("Player");
         game.addObserver(player);
         game.getPlayers().add(player);
         game.getDealer().dealCardsToPlayer(player);
@@ -129,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         game.setActivity(this);
         tvBank.setText("Bank: $" + player.getBank());
+        seekBetBar.setMax(player.getBank());
+        //btnBet1.setEnabled(false);
 
         playerCard1.show(linearLayout.getChildAt(0));
         playerCard2.show(linearLayout.getChildAt(1));

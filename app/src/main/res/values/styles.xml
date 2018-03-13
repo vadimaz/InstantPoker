@@ -33,4 +33,9 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="appText">
+        <item name="android:textColor">#D6D7D7</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

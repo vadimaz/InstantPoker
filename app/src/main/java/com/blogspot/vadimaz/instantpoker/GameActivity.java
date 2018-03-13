@@ -1,10 +1,13 @@
 package com.blogspot.vadimaz.instantpoker;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.vadimaz.instantpoker.game.Card;
@@ -20,7 +23,9 @@ import java.util.List;
 public class GameActivity extends AppCompatActivity {
 
     private final static String TAG = "cards";
+    TextView playerName, oppoName, oppoBet, playerBet, tvBank;
     LinearLayout llTop, llCenter, llBottom;
+    int bet, bank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +35,21 @@ public class GameActivity extends AppCompatActivity {
         llTop = findViewById(R.id.llTop);
         llCenter =  findViewById(R.id.llCenter);
         llBottom = findViewById(R.id.llBottom);
+        playerName = findViewById(R.id.playerName);
+        oppoName = findViewById(R.id.oppoName);
+        oppoBet = findViewById(R.id.oppoBet);
+        playerBet = findViewById(R.id.playerBet);
+        tvBank = findViewById(R.id.tvBank);
 
         final Game game = (Game) getIntent().getSerializableExtra("game");
+        bet = getIntent().getIntExtra("bet", 0);
+        bank = getIntent().getIntExtra("bank", 100);
 
-        Player player = game.getPlayers().get(0);
+        final Player player = game.getPlayers().get(0);
         game.addObserver(player);
+        playerName.setText(player.getName());
+        playerBet.setText("$"+bet);
+        tvBank.setText("Bank: $" + bank);
         final Card playerCard1 = player.getHand().get(0);
         final Card playerCard2 = player.getHand().get(1);
         game.addObserver(playerCard1);
@@ -42,6 +57,8 @@ public class GameActivity extends AppCompatActivity {
 
         Player opponent = new Player("Opponent");
         game.addObserver(opponent);
+        oppoName.setText(opponent.getName());
+        oppoBet.setText("$"+bet);
         game.getPlayers().add(opponent);
         game.getDealer().dealCardsToPlayer(opponent);
         final Card opponentCard1 = opponent.getHand().get(0);
@@ -54,6 +71,17 @@ public class GameActivity extends AppCompatActivity {
             game.addObserver(card);
         }
         game.setActivity(this);
+
+
+        ArrayList<Combination> combinations = new ArrayList<>(game.getPlayers().size());
+        for (Player p: game.getPlayers()) {
+            combinations.add(Combinations.getCombination(p, showDown, p.getHand()));
+        }
+        Collections.sort(combinations);
+        for (Combination c: combinations) {
+            Log.d(TAG, c.toString());
+        }
+        final ArrayList<Combination> winners = Combinations.getWinner(combinations);
 
         playerCard1.showFront(llBottom.getChildAt(0));
         playerCard2.showFront(llBottom.getChildAt(1));
@@ -83,18 +111,6 @@ public class GameActivity extends AppCompatActivity {
             }
         }, 5500);
 
-
-
-        ArrayList<Combination> combinations = new ArrayList<>(game.getPlayers().size());
-        for (Player p: game.getPlayers()) {
-            combinations.add(Combinations.getCombination(p, showDown, p.getHand()));
-        }
-        Collections.sort(combinations);
-        for (Combination c: combinations) {
-            Log.d(TAG, c.toString());
-        }
-        final ArrayList<Combination> winners = Combinations.getWinner(combinations);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -103,14 +119,26 @@ public class GameActivity extends AppCompatActivity {
                 for (int i = 0; i < winHand.size(); i++) {
                     winHand.get(i).highlight();
                 }
+                Toast toast;
                 if (winners.size() != 1) {
-                    Toast.makeText(game.getActivity(),"Both players win with "+ winners.get(0).getRank(), Toast.LENGTH_LONG).show();
+
+                    toast = Toast.makeText(game.getActivity().getApplicationContext(),"Both players win $"+bet+" with "+ winners.get(0).getRank(), Toast.LENGTH_LONG);
+                    Intent intent = new Intent();
+                    intent.putExtra("bank", bank+bet);
+                    setResult(1, intent);
+
                 } else {
-                    Toast.makeText(game.getActivity(),winner.getName() + " wins with "+ winners.get(0).getRank(), Toast.LENGTH_LONG).show();
+                    toast = Toast.makeText(game.getActivity().getApplicationContext(),winner.getName() + " wins $"+bet*2+" with "+ winners.get(0).getRank(), Toast.LENGTH_LONG);
+                    Intent intent = new Intent();
+                    if (winner == player) intent.putExtra("bank", bank+bet*2);
+                    else intent.putExtra("bank", bank);
+                    setResult(1, intent);
                 }
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
 
             }
-        }, 6500);
+        }, 6000);
 
     }
 }
