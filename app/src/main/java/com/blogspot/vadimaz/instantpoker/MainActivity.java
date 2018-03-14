@@ -58,11 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 tvBet.setText("Bet: $"+progress);
+                bet = progress;
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 tvBet.setText("Bet: $"+ seekBar.getProgress());
+                bet = seekBar.getProgress();
             }
 
             @Override
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
 
         switch (v.getId()) {
             case R.id.btnPlay:
@@ -110,10 +113,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnBetMinus:
                 //seekBetBar.setProgress(seekBetBar.getProgress() - 1);
                 bet = seekBetBar.getProgress()-1;
+                if (bet < 0) bet = 0;
                 break;
             case R.id.btnBetPlus:
                 //seekBetBar.setProgress(seekBetBar.getProgress() + 1);
                 bet = seekBetBar.getProgress()+1;
+                if (bet > player.getBank()) bet = player.getBank();
                 break;
         }
         tvBet.setText("Bet: $"+bet);
@@ -124,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         player.setBank(data.getIntExtra("bank", 0));
+        bet = 0;
+        seekBetBar.setProgress(bet);
         startGame();
 
     }
@@ -141,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         game.addObserver(playerCard2);
 
         game.setActivity(this);
+        if (player.getBank() <= 0) player.setBank(100);
         tvBank.setText("Bank: $" + player.getBank());
         seekBetBar.setMax(player.getBank());
         //btnBet1.setEnabled(false);
