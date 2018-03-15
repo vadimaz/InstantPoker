@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,8 @@ import com.blogspot.vadimaz.instantpoker.game.Combination;
 import com.blogspot.vadimaz.instantpoker.game.Combinations;
 import com.blogspot.vadimaz.instantpoker.game.Game;
 import com.blogspot.vadimaz.instantpoker.game.Player;
+import com.blogspot.vadimaz.instantpoker.game.Rank;
+import com.blogspot.vadimaz.instantpoker.game.Suit;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
     TextView playerName, oppoName, oppoBet, playerBet, tvBank;
     LinearLayout llTop, llCenter, llBottom;
     int bet, bank;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,15 @@ public class GameActivity extends AppCompatActivity {
         oppoBet = findViewById(R.id.oppoBet);
         playerBet = findViewById(R.id.playerBet);
         tvBank = findViewById(R.id.tvBank);
+        llCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toast != null) {
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
 
         final Game game = (Game) getIntent().getSerializableExtra("game");
         bet = getIntent().getIntExtra("bet", 0);
@@ -60,13 +73,18 @@ public class GameActivity extends AppCompatActivity {
         oppoName.setText(opponent.getName());
         oppoBet.setText("$"+bet);
         game.getPlayers().add(opponent);
+
         game.getDealer().dealCardsToPlayer(opponent);
+        //game.getDealer().dealOwnCardsToPlayer(opponent, new Card(Rank.KING, Suit.CLUBS), new Card(Rank.THREE, Suit.CLUBS)); // for test
+
         final Card opponentCard1 = opponent.getHand().get(0);
         final Card opponentCard2 = opponent.getHand().get(1);
         game.addObserver(opponentCard1);
         game.addObserver(opponentCard2);
 
         final ArrayList<Card> showDown = game.getDealer().dealShowDown();
+        //final ArrayList<Card> showDown = game.getDealer().dealOwnShowDown(new Card(Rank.TEN, Suit.CLUBS), new Card(Rank.JACK, Suit.CLUBS), new Card(Rank.QUEEN, Suit.CLUBS), new Card(Rank.NINE, Suit.CLUBS), new Card(Rank.NINE, Suit.DIAMONDS));
+
         for (Card card: showDown){
             game.addObserver(card);
         }
@@ -119,7 +137,7 @@ public class GameActivity extends AppCompatActivity {
                 for (int i = 0; i < winHand.size(); i++) {
                     winHand.get(i).highlight();
                 }
-                Toast toast;
+
                 if (winners.size() != 1) {
 
                     toast = Toast.makeText(game.getActivity().getApplicationContext(),"Both players win $"+bet+" with "+ winners.get(0).getRank(), Toast.LENGTH_LONG);

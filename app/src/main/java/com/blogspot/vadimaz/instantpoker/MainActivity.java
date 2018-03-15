@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.blogspot.vadimaz.instantpoker.game.Card;
 import com.blogspot.vadimaz.instantpoker.game.Game;
 import com.blogspot.vadimaz.instantpoker.game.Player;
+import com.blogspot.vadimaz.instantpoker.game.Rank;
+import com.blogspot.vadimaz.instantpoker.game.Suit;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -141,7 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player = new Player("Player");
         game.addObserver(player);
         game.getPlayers().add(player);
+
         game.getDealer().dealCardsToPlayer(player);
+        //game.getDealer().dealOwnCardsToPlayer(player, new Card(Rank.EIGHT, Suit.CLUBS), new Card(Rank.NINE, Suit.SPADES)); // for test
+
         final Card playerCard1 = player.getHand().get(0);
         final Card playerCard2 = player.getHand().get(1);
         game.addObserver(playerCard1);

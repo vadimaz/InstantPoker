@@ -28,6 +28,7 @@ public enum Combinations {
         this.rank = rank;
     }
 
+
     public int getRank() {
         return rank;
     }
@@ -60,11 +61,11 @@ public enum Combinations {
                 if (card == hand.get(j)) continue;
                 if (card.getSuit() == hand.get(j).getSuit()) {
                     result.add(hand.get(j));
+                    if (result.size() == 5) {
+                        //Log.d(TAG, "checkFlush: " + result);
+                        return result;
+                    }
                 }
-            }
-            if (result.size() == 5) {
-                //Log.d(TAG, "checkFlush: " + result);
-                return result;
             }
         }
         //Log.d(TAG, "checkFlush: null");

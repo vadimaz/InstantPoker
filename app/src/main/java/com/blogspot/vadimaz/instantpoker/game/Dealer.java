@@ -60,4 +60,15 @@ public class Dealer implements Serializable {
     public ArrayList<Card> dealShowDown(){
         return deck.drawShowDown();
     }
+
+    public ArrayList<Card> dealOwnShowDown(Card... cards){
+        if (cards.length != 5) return dealShowDown();
+        else return deck.drawShowDown(cards);
+
+    }
+    public void dealOwnCardsToPlayer(Player player, Card card1, Card card2){
+        player.getHand().clear();
+        player.getHand().add(deck.getSpecificCard(card1));
+        player.getHand().add(deck.getSpecificCard(card2));
+    }
 }
